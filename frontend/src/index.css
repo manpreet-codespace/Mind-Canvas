@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+
+:root{
+  --background:#F8FAFC;
+  --surface:#FFFFFF;
+  --primary-text:#111827;
+  --secondary-text:#687280;
+  --border:#e5e7eb;
+  --primary-accent:#0f766e;
+  --accent-hover:#115e59;
+  --secondary-accent:#2563eb;
+  --success:#16a34a;
+  --warning:#d97706;
+  --error:#dc2626;
+
+}
+
+
