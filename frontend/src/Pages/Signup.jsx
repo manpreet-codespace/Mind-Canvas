@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import signupImage from "../assets/images/pexels-knownasovan-57690.jpg"
+import { useNavigate } from 'react-router-dom';
+import { ArrowRight, Eye, EyeClosed } from 'lucide-react';
 import axios from "axios";
+
 
 const Signup = () => {
 
@@ -11,38 +12,38 @@ const Signup = () => {
     // const [password, setPassword] = useState("");
     // const [phoneNumber, setPhoneNumber] = useState("");
     // const [address, setAddress] = useState("");
-    const [formData,setFormData]= useState({
-        fname:'',
-        lname:'',
-        email:'',
-        phoneNumber:'',
-        password:'',
-        address:''
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: '',
     });
-    
-    const handleChange = (e) =>{
-        const {name,value} = e.target;
-
-        setFormData(prevData=>({
-
-            ...prevData,
-            [name]:value
-        }))
-    }
-
+    const [isShown, setIsShown] = useState(false);
     const navigate = useNavigate();
 
 
-    const handleSignup=async()=>{
-        try{
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        setFormData(prevData => ({
+
+            ...prevData,
+            [name]: value
+        }))
+    }
+    const togglePassword = () => {
+        setIsShown(prev => !prev);
+    }
+
+
+    const handleSignup = async () => {
+        try {
             const response = await axios.post("http://localhost:8000/api/auth/signup",
                 formData
             )
             console.log("Signup Successfull", response.data);
 
         }
-        catch(err)
-        {
+        catch (err) {
             console.error("error", err.response?.data || err.message);
 
         }
@@ -56,57 +57,31 @@ const Signup = () => {
     return (
         <>
             <div className='bg-[var(--background)] h-screen flex justify-center items-center'>
-                <div className='h-[90%] w-[70%] shadow-lg rounded-xl flex gap-6 items-center'>
-                    <div className='flex flex-1 h-[100%] relative'>
-                        <button onClick={handleBack} className='absolute z-1 p-2  font-bold '>
-                            Back
-                        </button>
-                        <img src={signupImage} alt="signupImage" className='rounded-l-lg relative' />
-                        <div className='absolute inset-0 bg-white/20 '></div>
+
+                <div className="text-center w-4/12">
+                    <h1 className='font-[font-display] text-[6vh] tracking-tighter'>Create Account</h1>
+                    <p className='text-[hsl(var(--muted-foreground))]'>Join MindCanvas and start sharing ideas</p>
+                    <div className="w-12/12 text-left">
+                        <label for="name" className='text-xs font-medium text-[hsl(var(--muted-foreground))]'>
+                            Name <br />
+                            <input name="name" id="name" type="text" placeholder='Your Name' onChange={handleChange} value={formData.name} className="border rounded-lg p-3 text-md placeholder:text-[14px] font-light bg-white w-full  " />
+                        </label>
+                        <br />
+                        <label for="email" className='text-xs font-medium text-[hsl(var(--muted-foreground))]'>
+                            Email<br />
+                            <input name='email' id='email' type="email" placeholder="Your Email" onChange={handleChange} value={formData.email} className="border rounded-lg p-3 text-md placeholder:text-[14px] font-light bg-white w-full  " />
+
+                        </label>
+                        <br />
+                        <label for="password" className='text-xs font-medium text-[hsl(var(--muted-foreground))] relative '>
+                            Password <br />
+                            <input name='password' id="password" type={isShown ? "text" : "password"} placeholder="Your Password" onChange={handleChange} value={formData.password} className=" relative border rounded-lg p-3  text-md placeholder:text-[14px] font-light bg-white w-full focus:ring-1 focus:ring-[hsl(var(--ring))] " />
+                            <button onClick={togglePassword} className='absolute right-4 top-2/4 '>{isShown ? <EyeClosed className='w-4' /> : <Eye className='w-4' />}</button>
+                        </label>
+
+                        <button className='w-full bg-black rounded-lg mt-4 text-white flex gap-2 py-3 justify-center' onClick={handleSignup}>Create Account<ArrowRight /> </button>
+                        <p className='text-[hsl(var(--muted-foreground))] text-center mt-2'>Have an account?<a href="/signin" className='underline text-black '>Signin</a></p>
                     </div>
-                    <div className='flex-1' >
-
-                        <label for="fname" className='flex gap-2 items-center'>
-                            First Name
-                            <input type="text" name="fname" id='fname' onChange={handleChange} value={formData.fname} placeholder='Enter your first name' className='border border-grey-200 rounded-sm p-2' />
-                        </label>
-                        <br />
-
-                        <label for="lname" className='flex gap-2 items-center'>
-                            Last Name
-                            <input type="text" name="lname" id='lname' onChange={handleChange} value={formData.lname} placeholder='Enter your last name' className='border border-grey-200 rounded-sm p-2' />
-                        </label>
-                        <br />
-
-
-                        <label for="phoneNumber" className='flex gap-2 items-center'>
-                            Phone Number
-                            <input type="text" name="phoneNumber" id='phoneNumber' onChange={handleChange} value={formData.phoneNumber} placeholder='Enter your phone-number' className='border border-grey-200 rounded-sm p-2' />
-                        </label>
-                        <br />
-
-                        <label for="email" className='flex gap-2 items-center'>
-                            Email
-                            <input type="email" name="email" id='email' onChange={handleChange} value={formData.email} placeholder='Enter your email' className='border border-grey-200 rounded-sm p-2' />
-                        </label>
-                        <br />
-                          <label for="password" className='flex gap-2 items-center'>
-                            Password
-                            <input type="password" name="password" id='password' onChange={handleChange} value={formData.password} placeholder='Enter your password' className='border border-grey-200 rounded-sm p-2' />
-                        </label>
-                        <br/>
-                        <label for="address" className='flex gap-2 items-center' >
-                            Address
-                            <textarea type="text" name="address" id='address' onChange={handleChange} value={formData.address} placeholder='Enter your address' className='border border-grey-200 rounded-sm p-2' />
-                        </label>
-                        <br />
-
-
-                        <button className="px-42 py-2  rounded bg-[var(--primary-accent)] hover-[var(--accent-hover)] text-[var(--surface)]" onClick={handleSignup}>
-                            Signup
-                        </button>
-                    </div>
-
                 </div>
             </div>
         </>

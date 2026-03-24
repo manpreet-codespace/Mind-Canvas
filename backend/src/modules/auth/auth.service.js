@@ -2,10 +2,11 @@ import bcrypt from "bcrypt"
 import auth from "./auth.models.js";
 
 export const signupService =async(data)=>{
-    const {fname, lname, email, phoneNumber, password, address} = data;  //destructing of properties 
+    const {name, email,  password} = data;  //destructing of properties 
 
     const existingUser = await auth.findOne({
-          $or: [{ email }, { phoneNumber }],
+        email
+        //   $or: [{ email }, { phoneNumber }],
     });  //find mail or user if user exists or not
 
     if(existingUser)
@@ -19,13 +20,9 @@ export const signupService =async(data)=>{
 
   
     const user = await auth.create({    //here , create users in the dbs 
-
-        fname,
-        lname,
+        name,
         email,
-        phoneNumber,
         password:hashPassword,
-        address
     })
 
     return user;    //return user here 

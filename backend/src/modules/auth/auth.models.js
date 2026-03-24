@@ -1,19 +1,9 @@
 import mongoose from "mongoose";
 
 const authSchema =new mongoose.Schema({
-    fname:{
+    name:{
         type:String,
         required:true,
-    },
-    lname:{
-        type:String,
-        required:true,
-
-    },
-    phoneNumber:{
-        type:String,
-        required:true,
-        unique:true,
     },
     email:{
         type:String,
@@ -24,12 +14,7 @@ const authSchema =new mongoose.Schema({
     password:{
         type:String,
         required:true,
-    },
-    address:{
-        type:String,
-        required:true,
     }
-
 })
 
 
