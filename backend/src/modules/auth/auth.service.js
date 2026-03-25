@@ -30,3 +30,23 @@ export const signupService =async(data)=>{
 
     
 }
+
+
+export const signinService =async(data)=>{
+    const {email, password}= data;
+
+    const existingUser = await auth.findOne({email});
+    if(!existingUser)
+    {
+        throw new Error("User not found");
+    }
+
+    const isMatch = await bcrypt.compare(password, existingUser.password);
+    if(!isMatch)
+    {
+       throw new Error("Invalid credentials");
+    }
+
+    return existingUser;
+
+}
