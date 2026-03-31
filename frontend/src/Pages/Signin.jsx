@@ -1,5 +1,4 @@
 import React ,{useState} from 'react'
-import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Eye, EyeClosed } from 'lucide-react';
 import axios from "axios";
 
@@ -10,7 +9,6 @@ const Signin = () => {
             password: '',
         });
         const [isShown, setIsShown] = useState(false);
-        const navigate = useNavigate();
     
     
         const handleChange = (e) => {
@@ -45,13 +43,13 @@ const Signin = () => {
                     <h1 className='font-[font-display] text-[6vh] tracking-tighter'>Welcome back</h1>
                     <p className='text-[hsl(var(--muted-foreground))]'>Sign in to continue writing</p>
                     <div className="w-12/12 text-left">
-                        <label for="email" className='text-xs font-medium text-[hsl(var(--muted-foreground))]'>
+                        <label htmlFor="email" className='text-xs font-medium text-[hsl(var(--muted-foreground))]'>
                             Email<br />
                             <input name='email' id='email' type="email" placeholder="Your Email" onChange={handleChange} value={formData.email} className="border rounded-lg p-3 text-md placeholder:text-[14px] font-light bg-white w-full  " />
 
                         </label>
                         <br />
-                        <label for="password" className='text-xs font-medium text-[hsl(var(--muted-foreground))] relative '>
+                        <label htmlFor="password" className='text-xs font-medium text-[hsl(var(--muted-foreground))] relative '>
                             Password <br />
                             <input name='password' id="password" type={isShown ? "text" : "password"} placeholder="Your Password" onChange={handleChange} value={formData.password} className=" relative border rounded-lg p-3  text-md placeholder:text-[14px] font-light bg-white w-full focus:ring-1 focus:ring-[hsl(var(--ring))] " />
                             <button onClick={togglePassword} className='absolute right-4 top-2/4 '>{isShown ? <EyeClosed className='w-4' /> : <Eye className='w-4' />}</button>
