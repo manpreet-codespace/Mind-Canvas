@@ -1,6 +1,7 @@
 import React ,{useState} from 'react'
 import { ArrowRight, Eye, EyeClosed } from 'lucide-react';
 import axios from "axios";
+import { useNavigate } from 'react-router';
 
 const Signin = () => {
 
@@ -9,7 +10,8 @@ const Signin = () => {
             password: '',
         });
         const [isShown, setIsShown] = useState(false);
-    
+        const navigate = useNavigate();
+
     
         const handleChange = (e) => {
             const { name, value } = e.target;
@@ -28,6 +30,11 @@ const Signin = () => {
             try{
                 const response = await axios.post("http://localhost:8000/api/auth/signin", formData);
                 console.log(response.data);
+                
+                navigate("/");
+
+                localStorage.setItem("token",response.data.token);
+
             }
             catch(err)
             {

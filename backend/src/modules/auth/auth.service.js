@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt"
 import auth from "./auth.models.js";
+import { generateWebToken } from "../../utils/jwt.js";
 
 export const signupService =async(data)=>{
     const {name, email,  password} = data;  //destructing of properties 
@@ -16,9 +17,8 @@ export const signupService =async(data)=>{
     }
 
 
-    const hashPassword= await bcrypt.hash(password, 10);  //password is encrupted using hashing which is not encrypted.
+    const hashPassword= await bcrypt.hash(password, 10);  //password is encrypted using hashing which is not decrypted.
 
-  
     const user = await auth.create({    //here , create users in the dbs 
         name,
         email,
@@ -26,8 +26,6 @@ export const signupService =async(data)=>{
     })
 
     return user;    //return user here 
-
-
     
 }
 
@@ -47,6 +45,10 @@ export const signinService =async(data)=>{
        throw new Error("Invalid credentials");
     }
 
-    return existingUser;
+   const {accessToken, refreshToken}= generateWebToken(existingUser);
+   
+    
+    return {existingUser, accessToken, refreshToken};
 
 }
+
