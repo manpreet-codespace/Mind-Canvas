@@ -44,7 +44,7 @@ const Signin = () => {
     
   return (
     <>
-        <div className='bg-[var(--background)] h-screen flex justify-center items-center'>
+        <div className='bg-[hsl(var(--background))] h-screen flex justify-center items-center'>
 
                 <div className="text-center w-4/12">
                     <h1 className='font-[font-display] text-[6vh] tracking-tighter'>Welcome back</h1>
