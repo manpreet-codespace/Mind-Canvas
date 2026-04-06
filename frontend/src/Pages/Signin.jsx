@@ -28,12 +28,14 @@ const Signin = () => {
 
         const handleSignin=async()=>{
             try{
-                const response = await axios.post("http://localhost:8000/api/auth/signin", formData);
+                const response = await axios.post("http://localhost:8000/api/auth/signin", formData,
+                    {withCredentials:true}
+                );
                 console.log(response.data);
                 
                 navigate("/");
 
-                localStorage.setItem("token",response.data.token);
+                localStorage.setItem("accessToken",response.data.accessToken);
 
             }
             catch(err)

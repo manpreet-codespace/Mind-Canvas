@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt"
 import auth from "./auth.models.js";
-import { generateWebToken } from "../../utils/jwt.js";
+import { generateAccessToken, generateRefreshToken } from "../../utils/jwt.js";
+import jwt from "jsonwebtoken";
+
 
 export const signupService =async(data)=>{
     const {name, email,  password} = data;  //destructing of properties 
@@ -45,10 +47,32 @@ export const signinService =async(data)=>{
        throw new Error("Invalid credentials");
     }
 
-   const {accessToken, refreshToken}= generateWebToken(existingUser);
+    const accessToken= generateAccessToken(existingUser);
+    const refreshToken= generateRefreshToken(existingUser);
+    
    
     
     return {existingUser, accessToken, refreshToken};
 
+}
+
+
+export const refreshTokenServices= (refreshToken)=>{
+    if(!refreshToken)
+    {
+        throw new Error("no refresh token");
+
+    }
+
+    const decoded= jwt.verify(
+        refreshToken,
+        process.env.REFRESH_SECRET
+    );
+
+    const newAccessToken= generateAccessToken({
+        _id: decoded.id
+    })
+
+    return newAccessToken;
 }
 

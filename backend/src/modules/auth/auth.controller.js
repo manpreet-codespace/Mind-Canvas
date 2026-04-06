@@ -15,18 +15,18 @@ export const signup=async(req,res)=>{
 export const signin =async(req,res) =>{
     try{
         const {accessToken, refreshToken, existingUser}= await authService.signinService(req.body);
-        res.status(200).json(signinUser);
 
 
         res.cookie("refreshToken",refreshToken,
             {
                 httpOnly:true,
                 secure:false,
-                sameSite:"strict"
+                sameSite:"lax",
+                maxAge:7 * 24 * 60 * 60 * 1000
             }
         )
 
-        res.json({
+        res.status(200).json({
             accessToken,
             existingUser
         })
@@ -38,3 +38,19 @@ export const signin =async(req,res) =>{
 
     }
 } 
+
+
+export const refresh = (req,res)=>{
+    try{
+        const refreshToken = req.cookies.refreshToken;
+        
+        const accessToken = authService.refreshTokenServices(refreshToken);
+
+        res.json({accessToken});
+    }
+    catch(err)
+    {
+        res.status(401).json({message:err.message});
+
+    }
+}
