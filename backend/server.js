@@ -6,7 +6,6 @@ dotenv.config();
 import connectDB from "./src/config/db.js";
 import router from "./src/modules/auth/auth.router.js";
 
-
 const app= express();
 
 app.use(cors());

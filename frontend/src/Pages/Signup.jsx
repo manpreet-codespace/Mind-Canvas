@@ -1,23 +1,19 @@
 import React, { useState } from 'react'
 import { ArrowRight, Eye, EyeClosed } from 'lucide-react';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
 
 
 const Signup = () => {
 
-    // const [fname, setFname]= useState("");
-    // const [lname, setLname]= useState("");
-    // const [email,setEmail] = useState("");
-    // const [password, setPassword] = useState("");
-    // const [phoneNumber, setPhoneNumber] = useState("");
-    // const [address, setAddress] = useState("");
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
     });
     const [isShown, setIsShown] = useState(false);
-
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -38,7 +34,8 @@ const Signup = () => {
             const response = await axios.post("http://localhost:8000/api/auth/signup",
                 formData
             )
-            console.log("Signup Successfull", response.data);
+            console.log("Signup Successful", response.data);
+            navigate("/");
 
         }
         catch (err) {
@@ -49,7 +46,7 @@ const Signup = () => {
     }
     return (
         <>
-            <div className='bg-[var(--background)] h-screen flex justify-center items-center'>
+            <div className='bg-[hsl(var(--background))] h-screen flex justify-center items-center'>
 
                 <div className="text-center w-4/12">
                     <h1 className='font-[font-display] text-[6vh] tracking-tighter'>Create Account</h1>
